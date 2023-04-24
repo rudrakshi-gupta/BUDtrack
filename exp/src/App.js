@@ -1,9 +1,9 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+// import {}
 import './App.css';
 
 function App() {
   return (
-    <>
     <div className="BUDtrack">
       <header className="App-header">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -18,7 +18,6 @@ function App() {
         </div>
       </main>
     </div>
-    </>
   );
 }
 

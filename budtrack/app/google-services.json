@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "200814671748",
+    "firebase_url": "https://budtrack-database-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "budtrack-database",
+    "storage_bucket": "budtrack-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200814671748:android:eba6039db94bc14df1cfd1",
+        "android_client_info": {
+          "package_name": "com.example.budtrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200814671748-s558pu6cms49imgi7je4tvbau7gon32d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX559aXsgFJGBfrOpH53wkIPDMnl8ZFAE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200814671748-jv301vc9thlg56ruqt3hn11bvqgktibh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
