@@ -32,6 +32,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -39,28 +40,28 @@ public class MyFCMService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        if (remoteMessage.getData() != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                sendNotificationWithChannel(remoteMessage);
-                addRequestToUserInformation(remoteMessage.getData());
-            } else {
-                sendNotification(remoteMessage);
-                addRequestToUserInformation(remoteMessage.getData());
-            }
+        remoteMessage.getData();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            sendNotificationWithChannel(remoteMessage);
+            addRequestToUserInformation(remoteMessage.getData());
+        } else {
+            sendNotification(remoteMessage);
+            addRequestToUserInformation(remoteMessage.getData());
         }
     }
 
     private void addRequestToUserInformation(Map<String, String> data) {
-//        DatabaseReference friendRequest = FirebaseDatabase.getInstance()
-//                .getReference(Common.USER_INFORMATION)
-//                .child(data.get(Common.TO_UID))
-//                .child(Common.FRIEND_REQUEST);
-//
-//        User user = new User();
-//        user.setUid(data.get(Common.FROM_UID));
-//        user.setEmail(data.get(Common.FROM_NAME));
-//
-//        friendRequest.child(user.getUid()).setValue(user);
+        //Pending request
+        DatabaseReference friend_Request = FirebaseDatabase.getInstance()
+                .getReference(Common.USER_INFORMATION)
+                .child(data.get(Common.TO_UID))
+                .child(Common.FRIEND_REQUEST);
+
+        User user = new User();
+        user.setUid(data.get(Common.FROM_UID));
+        user.setEmail(data.get(Common.FROM_NAME));
+
+        friend_Request.child(user.getUid()).setValue(user);
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {

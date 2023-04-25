@@ -178,32 +178,29 @@ public class AllpeopleActivity extends AppCompatActivity implements IFirebaseLoa
             }
         });
 
-        alertDialog.setPositiveButton("Send", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //Add to accept list
-                DatabaseReference acceptList = FirebaseDatabase.getInstance()
-                        .getReference(Common.USER_INFORMATION)
-                        .child(Common.loggedUser.getUid())
-                        .child(Common.ACCEPT_LIST);
+        alertDialog.setPositiveButton("Send", (dialogInterface, i) -> {
+            //Add to accept list
+            DatabaseReference acceptList = FirebaseDatabase.getInstance()
+                    .getReference(Common.USER_INFORMATION)
+                    .child(Common.loggedUser.getUid())
+                    .child(Common.ACCEPT_LIST);
 
-                acceptList.orderByKey().equalTo(model.getUid())
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getValue() == null) {
-                                    //Toast.makeText(AllPeopleActivity.this, "test", Toast.LENGTH_SHORT).show();
-                                    sendFriendRequest(model);
-                                } else
-                                    Toast.makeText(AllpeopleActivity.this, "You and" + model.getEmail() + "are already friends :)", Toast.LENGTH_SHORT).show();
-                            }
+            acceptList.orderByKey().equalTo(model.getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue() == null) {
+//                                Toast.makeText(AllpeopleActivity.this, "test", Toast.LENGTH_SHORT).show();
+                                sendFriendRequest(model);
+                            } else
+                                Toast.makeText(AllpeopleActivity.this, "You and" + model.getEmail() + "are already friends :)", Toast.LENGTH_SHORT).show();
+                        }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            }
-                        });
-            }
+                        }
+                    });
         });
         alertDialog.show();
     }
@@ -235,18 +232,10 @@ public class AllpeopleActivity extends AppCompatActivity implements IFirebaseLoa
                             compositeDisposable.add(ifcmService.sendFriendRequestToUser(request)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Consumer<MyResponse>() {
-                                        @Override
-                                        public void accept(MyResponse myResponse) throws Exception {
-                                            if (myResponse.success == 1)
-                                                Toast.makeText(AllpeopleActivity.this, "Request Sent", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }, new Consumer<Throwable>() {
-                                        @Override
-                                        public void accept(Throwable throwable) throws Exception {
-                                            Toast.makeText(AllpeopleActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }));
+                                    .subscribe(myResponse -> {
+                                        if (myResponse.success == 1)
+                                            Toast.makeText(AllpeopleActivity.this, "Request Sent", Toast.LENGTH_SHORT).show();
+                                    }, throwable -> Toast.makeText(AllpeopleActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show()));
                         }
                     }
 

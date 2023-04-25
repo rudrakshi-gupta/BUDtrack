@@ -18,7 +18,7 @@ public interface IFCMService {
     })
 
     @POST("fcm/send")
-        //Observable<MyResponse> sendFriendRequestToUser(@Body Request body);
+//        Observable<MyResponse> sendFriendRequestToUser(@Body Request body);
     io.reactivex.Observable<MyResponse> sendFriendRequestToUser(@Body Request body);
 
 }

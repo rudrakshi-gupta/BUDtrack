@@ -13,6 +13,7 @@ public class Common {
     public static final String FROM_UID = "FromUid";
     public static final String TO_UID = "ToUid";
     public static final String TO_NAME = "ToName";
+    public static final String FRIEND_REQUEST = "FriendRequests";
     public static User loggedUser;
 
     public static IFCMService getFCMService() {
