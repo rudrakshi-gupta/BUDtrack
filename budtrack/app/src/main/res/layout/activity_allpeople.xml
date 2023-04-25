@@ -19,14 +19,13 @@
 
   </com.mancj.materialsearchbar.MaterialSearchBar>
 
-  <View
-      android:layout_width="match_parent"
-      android:layout_height="1dp"
-      android:background="@color/black"/>
-<!--      android:layout_gravity="center"-->
-<!--      android:layout_margin="5dp"-->
-<!--      android:text="All Users"-->
-<!--      android:textStyle="bold" -->
+  <TextView
+      android:layout_width="78dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_margin="5dp"
+      android:text="All Users"
+      android:textStyle="bold" />
 
 
 

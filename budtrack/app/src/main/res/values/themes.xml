@@ -22,4 +22,8 @@
     <style name="Theme.Budtrack.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Budtrack.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MyRequestDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@android:color/black</item>
+    </style>
 </resources>
