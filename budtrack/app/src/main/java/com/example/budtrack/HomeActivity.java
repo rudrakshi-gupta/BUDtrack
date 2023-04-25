@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     private ActivityHomeBinding binding;
 
-    DatabaseReference publicLocation;
+//    DatabaseReference publicLocation;
 
     LocationRequest locationRequest;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -173,7 +173,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         recycler_friend_list.addItemDecoration(new DividerItemDecoration(this, ((LinearLayoutManager) layoutManager).getOrientation()));
 
 //        Update Location
-        publicLocation = FirebaseDatabase.getInstance().getReference(Common.PUBLIC_LOCATION);
+//        publicLocation = FirebaseDatabase.getInstance().getReference(Common.PUBLIC_LOCATION);
         updateLocation();
 
         firebaseLoadDone = this;
@@ -376,21 +376,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "You will automatically sign out when you clear the app from memory", Toast.LENGTH_SHORT).show();
                 break;
             }
-//            case R.id.nav_about_us: {
-////                startActivity(new Intent(HomeActivity.this, AboutUs.class));
-//                break;
-//            }
-//            case R.id.nav_feedback: {
-//                startActivity(new Intent(HomeActivity.this, FeedBackActivity.class));
-//                break;
-//            }
-//            case R.id.nav_invite: {
-//                Intent i = new Intent(Intent.ACTION_SEND);
-//                i.setType("text/plain");
-//                i.putExtra(Intent.EXTRA_TEXT, "Check Out this GPS Tracker.I use it to track my family and Friends.To join me download this app: https://appdistribution.firebase.dev/i/2yRVXqZE");
-//                startActivity(i.createChooser(i, "Share using: "));
-//                break;
-//            }
         }
         return true;
     }

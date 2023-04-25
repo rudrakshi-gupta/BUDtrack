@@ -3,6 +3,10 @@ package com.example.budtrack.Utils;
 import com.example.budtrack.Model.User;
 import com.example.budtrack.Remote.IFCMService;
 import com.example.budtrack.Remote.RetrofitClient;
+import java.sql.Timestamp;
+import java.util.Date;
+
+import java.text.SimpleDateFormat;
 
 public class Common {
     public static final String USER_INFORMATION = "UserInformation";
@@ -23,11 +27,12 @@ public class Common {
                 .create(IFCMService.class);
     }
 
-//    public static Date convertTimeStampToDate(long time) {
-//        return new Date(new Timestamp(time).getTime());
-//    }
-//
-//    public static String getDateFormatted(Date date) {
-//        return new SimpleDateFormat("dd-MM-yyyy HH:mm").format(date).toString();
-//    }
+
+    public static Date convertTimeStampToDate(long time) {
+        return new Date(new Timestamp(time).getTime());
+    }
+
+    public static String getDateFormatted(Date date) {
+        return new SimpleDateFormat("dd-MM-yyyy HH:mm").format(date).toString();
+    }
 }
