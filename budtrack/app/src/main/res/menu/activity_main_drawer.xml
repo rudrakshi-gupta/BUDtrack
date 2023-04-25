@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_find_people"
-            android:icon="@drawable/ic_baseline_explore_24"
+            android:icon="@drawable/ic_baseline_explore_24_white"
             android:title="Find People" />
         <item
             android:id="@+id/nav_add_people"

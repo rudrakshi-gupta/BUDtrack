@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_home">
+    android:layout_marginTop="50dp"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context=".HomeActivity">
+
+
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/material_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:mt_hint="Enter the email"
+        app:mt_maxSuggestionsCount="50">
+
+    </com.mancj.materialsearchbar.MaterialSearchBar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:text="All Friends"
+        android:textStyle="bold" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_friend_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <fragment
-        android:id="@+id/nav_host_fragment_content_home"
+        android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,5 +42,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/mobile_navigation" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:navGraph="@navigation/mobile_navigation">
+
+
+    </fragment>
+
+</LinearLayout>

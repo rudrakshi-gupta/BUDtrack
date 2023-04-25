@@ -22,9 +22,12 @@ import com.example.budtrack.ViewHolder.FriendRequestViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
@@ -106,51 +109,51 @@ public class FriendRequestActivity extends AppCompatActivity implements IFirebas
     }
 
     private void startSearch(String search_value) {
-//        Query query = FirebaseDatabase.getInstance().getReference().child(Common.USER_INFORMATION)
-//                .child(Common.loggedUser.getUid())
-//                .child(Common.FRIEND_REQUEST)
-//                .orderByChild("name")
-//                .startAt(search_value);
-//
-//        FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
-//                .setQuery(query, User.class)
-//                .build();
-//
-//        searchAdapter = new FirebaseRecyclerAdapter<User, FriendRequestViewHolder>(options) {
-//            @Override
-//            protected void onBindViewHolder(@NonNull FriendRequestViewHolder holder, int position, @NonNull User model) {
-//
-//                holder.txt_user_email.setText(model.getEmail());
-//                holder.btn_accept.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        deleteFriendRequest(model, false);
-//                        addToAcceptList(model);
-//                        addUserToFriendContact(model);
-//                    }
-//                });
-//                holder.btn_decline.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        //Delete
-//                        deleteFriendRequest(model, true);
-//                    }
-//                });
-//
+        Query query = FirebaseDatabase.getInstance().getReference().child(Common.USER_INFORMATION)
+                .child(Common.loggedUser.getUid())
+                .child(Common.FRIEND_REQUEST)
+                .orderByChild("name")
+                .startAt(search_value);
 
-//            }
+        FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
+                .setQuery(query, User.class)
+                .build();
 
-//            @NonNull
-//            @Override
-//            public FriendRequestViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//                View itemView = LayoutInflater.from(viewGroup.getContext())
-//                        .inflate(R.layout.layout_friend_request, viewGroup, false);
-//                return new FriendRequestViewHolder(itemView);
-//            }
-//        };
-//
-//        searchAdapter.startListening();
-//        recycler_all_user.setAdapter(searchAdapter);
+        searchAdapter = new FirebaseRecyclerAdapter<User, FriendRequestViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull FriendRequestViewHolder holder, int position, @NonNull User model) {
+
+                holder.txt_user_email.setText(model.getEmail());
+                holder.btn_accept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteFriendRequest(model, false);
+                        addToAcceptList(model);
+                        addUserToFriendContact(model);
+                    }
+                });
+                holder.btn_decline.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Delete
+                        deleteFriendRequest(model, true);
+                    }
+                });
+
+
+            }
+
+            @NonNull
+            @Override
+            public FriendRequestViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                View itemView = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.layout_friend_request, viewGroup, false);
+                return new FriendRequestViewHolder(itemView);
+            }
+        };
+
+        searchAdapter.startListening();
+        recycler_all_user.setAdapter(searchAdapter);
     }
 
     private void loadFriendRequestList() {
@@ -233,43 +236,25 @@ public class FriendRequestActivity extends AppCompatActivity implements IFirebas
     }
 
     private void loadSearchData() {
-        Query query = FirebaseDatabase.getInstance().getReference().child(Common.USER_INFORMATION)
+        final List<String> lstUserEmail = new ArrayList<>();
+        DatabaseReference userList = FirebaseDatabase.getInstance().getReference(Common.USER_INFORMATION)
                 .child(Common.loggedUser.getUid())
                 .child(Common.FRIEND_REQUEST);
-
-        FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
-                .setQuery(query, User.class)
-                .build();
-
-        searchAdapter = new FirebaseRecyclerAdapter<User, FriendRequestViewHolder>(options) {
+        userList.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            protected void onBindViewHolder(@NonNull FriendRequestViewHolder holder, int position, @NonNull User model) {
-
-                holder.txt_user_email.setText(model.getEmail());
-                holder.btn_accept.setOnClickListener(view -> {
-                    deleteFriendRequest(model, false);
-                    addToAcceptList(model);
-                    addUserToFriendContact(model);
-                });
-                holder.btn_decline.setOnClickListener(view -> {
-                    //Delete
-                    deleteFriendRequest(model, true);
-                });
-
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+                    lstUserEmail.add(user.getEmail());
+                }
+                firebaseLoadDone.onFirebaseLoadUserNameDone(lstUserEmail);
             }
 
-            @NonNull
             @Override
-            public FriendRequestViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View itemView = LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.layout_friend_request, viewGroup, false);
-                return new FriendRequestViewHolder(itemView);
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                firebaseLoadDone.onFirebaseLoadFailed(databaseError.getMessage());
             }
-        };
-
-        searchAdapter.startListening();
-        recycler_all_user.setAdapter(searchAdapter);
+        });
     }
 
     @Override
